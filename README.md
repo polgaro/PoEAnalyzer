@@ -11,3 +11,4 @@ I'll play with the public POE APIs to:
   * PriceCurrency
   * GetDivinationCardItem
   * GetDivinationsToBuy
+* Add redis to cache all!
