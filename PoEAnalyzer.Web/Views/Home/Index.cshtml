@@ -1,0 +1,20 @@
+﻿@model IndexModel;
+@using PoEAnalyzer.Web.Helpers;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome Exile</h1>
+        @if (LoginHelper.LoggedContext?.POESessid == null)
+        {
+            <div>Your POESessid is NOT set</div>
+        }
+        else
+        {
+            <div>The account you're following right now is: @LoginHelper.LoggedContext.Account </div>
+            <div>League: @LoginHelper.LoggedContext.League</div>
+            <div>Char: @LoginHelper.LoggedContext.Character</div>
+        }
+
+    </div>

@@ -1,0 +1,31 @@
+﻿@model IEnumerable<TabModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <div class="container">
+        <h1>Tabs !</h1>
+        <ul class="nav nav-tabs">
+            @foreach (TabModel tab in Model)
+            {
+                <li class="@(tab.Idx == 0 ? "active" : "")"><a href="#menu@(tab.Idx)" data-toggle="tab">@tab.Name</a></li>
+            }
+        </ul>
+        <div class="tab-content">
+        @foreach (TabModel tab in Model)
+        {
+            <div id="menu@(tab.Idx)" class="tab-pane fade@(tab.Idx == 0 ? " in active" : "")">
+                <div><h2>Tab @tab.Name (@tab.Idx)</h2></div>
+                <div><h3>Total Value: @tab.ChaosValue</h3></div>
+
+                @foreach (ItemModel i in tab.Items)
+                {
+                    <div class="row">
+                        <div class="col-sm-4">@i.Name</div>
+                        <div class="col-sm-2">@i.Qty</div>
+                    </div>
+                }
+            </div>
+        }
+        </div>
+</div>
