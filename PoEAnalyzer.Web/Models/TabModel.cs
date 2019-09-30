@@ -9,7 +9,13 @@ namespace PoEAnalyzer.Web.Models
     {
         public int Idx { get; set; }
         public string Name { get; set; }
-        public double ChaosValue { get; set; }
+        public double ChaosValue 
+        {
+            get
+            {
+                return Items.Sum(x => x.TotalValue);
+            }
+        }
         public IEnumerable<ItemModel> Items {get; set;}
     }
 
@@ -17,5 +23,13 @@ namespace PoEAnalyzer.Web.Models
     {
         public string Name { get; set; }
         public int Qty { get; set; }
+        public double? ChaosValue { get; set; }
+        public double TotalValue
+        {
+            get
+            {
+                return (Qty * ChaosValue) ?? 0;
+            }
+        }
     }
 }

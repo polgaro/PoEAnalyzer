@@ -10,6 +10,6 @@ namespace PoEAnalyzer.Web.DTOs
         public string Name { get; set; }
         public string Type { get; set; }
         public int Id { get; set; }
-        public List<Item> Items { get; set; }
+        public List<StashItem> Items { get; set; }
     }
 }

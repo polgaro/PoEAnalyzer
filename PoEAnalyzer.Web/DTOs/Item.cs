@@ -7,9 +7,9 @@ namespace PoEAnalyzer.Web.DTOs
 {
     public class Item
     {
-        public string Name { get; set; }
-        public int Quantity { get; set; }
         public string Id { get; set; }
+        public string Name { get; set; }
         public int? MaxStackSize { get; set; }
+        public string Type { get; set; }
     }
 }

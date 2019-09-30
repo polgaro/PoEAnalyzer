@@ -16,13 +16,16 @@
         {
             <div id="menu@(tab.Idx)" class="tab-pane fade@(tab.Idx == 0 ? " in active" : "")">
                 <div><h2>Tab @tab.Name (@tab.Idx)</h2></div>
-                <div><h3>Total Value: @tab.ChaosValue</h3></div>
+                <div><h3>Total Value: @tab.ChaosValue.ToString("N")</h3></div>
 
                 @foreach (ItemModel i in tab.Items)
                 {
                     <div class="row">
                         <div class="col-sm-4">@i.Name</div>
                         <div class="col-sm-2">@i.Qty</div>
+                        <div class="col-sm-2">@i.ChaosValue?.ToString("N")</div>
+                        <div class="col-sm-2">@i.TotalValue.ToString("N2")</div>
+                        
                     </div>
                 }
             </div>

@@ -13,17 +13,22 @@ namespace PoEAnalyzer.Web.Controllers
         public IActionResult Index()
         {
             var stash = StashService.GetStashItems();
-            return View(
-                    stash.Tabs.Select(x => new TabModel
-                    {
-                        Idx = x.Id,
-                        Name = x.Name,
-                        Items = x.Items.Select(i => new ItemModel{ 
-                            Name = i.Name,
-                            Qty = i.Quantity
-                        })
-                    })
-                ); ;
+
+            var model = stash.Tabs.Select(x => new TabModel
+            {
+                Idx = x.Id,
+                Name = x.Name,
+                Items = x.Items.Select(i => new ItemModel
+                {
+                    Name = i.Item.Name,
+                    Qty = i.Quantity,
+                    ChaosValue = i.Price?.Value
+                })
+                .OrderByDescending(x => x.TotalValue)
+                .ThenBy(x => x.Name)
+            });
+
+            return View(model); 
         }
     }
 }

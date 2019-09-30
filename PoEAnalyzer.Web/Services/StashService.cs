@@ -19,10 +19,10 @@ namespace PoEAnalyzer.Web.Services
             ret.Tabs = GetTabs();
 
             //get items in the tab
-            foreach(var t in ret.Tabs)
+            Parallel.ForEach(ret.Tabs, (t) =>
             {
                 t.Items = GetItems(t.Id);
-            }
+            });
 
             return ret;
         }
@@ -35,7 +35,7 @@ namespace PoEAnalyzer.Web.Services
             //read
             dynamic tabInfo = JsonConvert.DeserializeObject(response.Content);
             List<Tab> tabs = new List<Tab>();
-            foreach(var x in tabInfo.tabs)
+            foreach(dynamic x in tabInfo.tabs)
             {
                 tabs.Add(new Tab { 
                     Id = x.i,
@@ -48,7 +48,7 @@ namespace PoEAnalyzer.Web.Services
 
         }
 
-        private static List<Item> GetItems(int tab)
+        private static List<StashItem> GetItems(int tab)
         {
             //https://www.pathofexile.com/character-window/get-stash-items?league=Blight&tabs=1&tabIndex=1&accountName=diego_garber
             IRestResponse response = Execute("get-stash-items", new Dictionary<string, string> { 
@@ -58,21 +58,37 @@ namespace PoEAnalyzer.Web.Services
 
             //read
             dynamic tabInfo = JsonConvert.DeserializeObject(response.Content);
-            List<Item> items = new List<Item>();
-            foreach (var x in tabInfo.items)
+            List<StashItem> items = new List<StashItem>();
+            foreach (dynamic x in tabInfo.items)
             {
-                items.Add(new Item
+                Item item = new Item
                 {
                     Id = x.id,
                     Name = x.typeLine ?? x.name,
                     MaxStackSize = x.maxStackSize,
-                    Quantity = x.stackSize ?? 1
-                });
+                    Type = GetType(x)
+                };
+
+                items.Add(
+                    new StashItem
+                    {
+                        Quantity = x.stackSize ?? 1,
+                        Item = item,
+                        Price = PriceService.GetPrice(item)
+                    });
             }
 
             return items;
         }
 
+        private static string GetType(dynamic x)
+        {
+            string icon = x.icon;
+
+            if (!string.IsNullOrEmpty(icon) && icon.Contains("Divination"))
+                return "card";
+            return "";
+        }
 
         private static IRestResponse Execute(string resource, Dictionary<string, string> extraParams = null)
         {
