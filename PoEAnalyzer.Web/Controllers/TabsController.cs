@@ -24,8 +24,8 @@ namespace PoEAnalyzer.Web.Controllers
                     Qty = i.Quantity,
                     ChaosValue = i.Price?.Value
                 })
-                .OrderByDescending(x => x.TotalValue)
-                .ThenBy(x => x.Name)
+                .OrderByDescending(o => o.TotalValue)
+                .ThenBy(o => o.Name)
             });
 
             return View(model); 
