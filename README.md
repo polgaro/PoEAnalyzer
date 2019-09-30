@@ -1,6 +1,8 @@
 # PoEAnalyzer
 Playing with the public POE APIs
 
+For now it:
+* Displays the current tabs
 
 I'll play with the public POE APIs to:
 * Value my stash (essences, cards and currency)
