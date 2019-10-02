@@ -14,7 +14,7 @@ namespace PoEAnalyzer.Web.Controllers
         {
             var stash = StashService.GetStashItems();
 
-            var model = stash.Tabs.Select(x => new TabModel
+            IEnumerable<TabModel> tabs = stash.Tabs.Select(x => new TabModel
             {
                 Idx = x.Id,
                 Name = x.Name,
@@ -28,7 +28,7 @@ namespace PoEAnalyzer.Web.Controllers
                 .ThenBy(o => o.Name)
             });
 
-            return View(model); 
+            return View(new TabPageModel { Tabs = tabs }); 
         }
     }
 }

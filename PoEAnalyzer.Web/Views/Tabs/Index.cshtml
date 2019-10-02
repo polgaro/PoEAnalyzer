@@ -1,18 +1,19 @@
-﻿@model IEnumerable<TabModel>
+﻿@model TabPageModel
 @{
     ViewData["Title"] = "Index";
 }
 
     <div class="container">
+        <h1>Total worth: @Model.ChaosValue.ToString("N")</h1>
         <h1>Tabs !</h1>
         <ul class="nav nav-tabs">
-            @foreach (TabModel tab in Model)
+            @foreach (TabModel tab in Model.Tabs)
             {
                 <li class="@(tab.Idx == 0 ? "active" : "")"><a href="#menu@(tab.Idx)" data-toggle="tab">@tab.Name</a></li>
             }
         </ul>
         <div class="tab-content">
-        @foreach (TabModel tab in Model)
+        @foreach (TabModel tab in Model.Tabs)
         {
             <div id="menu@(tab.Idx)" class="tab-pane fade@(tab.Idx == 0 ? " in active" : "")">
                 <div><h2>Tab @tab.Name (@tab.Idx)</h2></div>
@@ -21,10 +22,10 @@
                 @foreach (ItemModel i in tab.Items)
                 {
                     <div class="row">
-                        <div class="col-sm-4">@i.Name</div>
-                        <div class="col-sm-2">@i.Qty</div>
-                        <div class="col-sm-2">@i.ChaosValue?.ToString("N")</div>
-                        <div class="col-sm-2">@i.TotalValue.ToString("N2")</div>
+                        <div class="col-xs-6 col-sm-4">@i.Name</div>
+                        <div class="col-xs-2">@i.Qty</div>
+                        <div class="col-xs-2">@i.ChaosValue?.ToString("N")</div>
+                        <div class="col-xs-2">@i.TotalValue.ToString("N2")</div>
                         
                     </div>
                 }
