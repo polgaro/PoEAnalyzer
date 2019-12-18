@@ -27,6 +27,7 @@ namespace PoEAnalyzer.Web.Services
             return ret;
         }
 
+
         private static List<Tab> GetTabs()
         {
             //https://www.pathofexile.com/character-window/get-stash-items?league={league}&tabs=1&accountName={account}
@@ -50,7 +51,11 @@ namespace PoEAnalyzer.Web.Services
 
         private static List<StashItem> GetItems(int tab)
         {
-            //https://www.pathofexile.com/character-window/get-stash-items?league=Blight&tabs=1&tabIndex=1&accountName=diego_garber
+            //to get a list of all the leagues:
+            //https://www.pathofexile.com/character-window/get-characters?accountName=diego_garber
+            //maybe i should do this to get the latest league? :P there's one that says "lastActive=true"
+
+            //https://www.pathofexile.com/character-window/get-stash-items?league=Metamorph&tabs=1&tabIndex=1&accountName=diego_garber
             IRestResponse response = Execute("get-stash-items", new Dictionary<string, string> { 
                 { "tabs", "0" } ,
                 { "tabIndex", tab.ToString()}
