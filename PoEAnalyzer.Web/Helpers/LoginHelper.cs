@@ -15,8 +15,8 @@ namespace PoEAnalyzer.Web.Helpers
                 {
                     Account = "diego_garber",
                     Character = "",
-                    League = "Metamorph",
-                    POESessid = "c8ee94102edb79bee6ce66dc8465dfb9"
+                    League = "Delirium",
+                    POESessid = "1b85fcbd9cd513e17ce4e36600be97be"
                 };
             }
         }
