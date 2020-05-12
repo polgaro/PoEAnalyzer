@@ -16,7 +16,7 @@ namespace PoEAnalyzer.Web.Helpers
                     Account = "diego_garber",
                     Character = "",
                     League = "Delirium",
-                    POESessid = "1b85fcbd9cd513e17ce4e36600be97be"
+                    POESessid = "3c2d6d6fb9be3a6151f8bb10c626b106"
                 };
             }
         }
