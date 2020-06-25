@@ -10,9 +10,16 @@ namespace PoEAnalyzer.Web.Controllers
 {
     public class TabsController : Controller
     {
+        private readonly StashService stashService;
+
+        public TabsController(StashService stashService)
+        {
+            this.stashService = stashService;
+        }
+
         public IActionResult Index()
         {
-            var stash = StashService.GetStashItems();
+            DTOs.Stash stash = stashService.GetStashItems();
 
             IEnumerable<TabModel> tabs = stash.Tabs.Select(x => new TabModel
             {

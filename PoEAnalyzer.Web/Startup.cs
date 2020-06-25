@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PoEAnalyzer.Web.Helpers;
+using PoEAnalyzer.Web.Services;
 
 namespace PoEAnalyzer.Web
 {
@@ -31,7 +33,10 @@ namespace PoEAnalyzer.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddSingleton<PriceService>();
+            services.AddSingleton<StashService>();
+            services.AddSingleton<LoginService>();
+            services.AddHttpContextAccessor();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

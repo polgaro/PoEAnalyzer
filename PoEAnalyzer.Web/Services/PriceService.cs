@@ -9,11 +9,17 @@ using System.Threading.Tasks;
 
 namespace PoEAnalyzer.Web.Services
 {
-    public static class PriceService
+    public class PriceService
     {
-        static Dictionary<string, Price> _prices = new Dictionary<string, Price>();
+        public PriceService(LoginService loginHelper)
+        {
+            this.loginHelper = loginHelper;
+        }
 
-        public static Price GetPrice(Item item)
+        Dictionary<string, Price> _prices = new Dictionary<string, Price>();
+        private readonly LoginService loginHelper;
+
+        public Price GetPrice(Item item)
         {
             Dictionary<string, Price> prices = GetAllPrices();
             if (prices.ContainsKey(item.Name))
@@ -21,7 +27,7 @@ namespace PoEAnalyzer.Web.Services
             return null;
         }
 
-        private static Dictionary<string, Price> GetAllPrices()
+        private Dictionary<string, Price> GetAllPrices()
         {
             if (_prices.Count == 0)
             {
@@ -65,10 +71,10 @@ namespace PoEAnalyzer.Web.Services
             return _prices;
         }
 
-        private static Dictionary<string, Price> GetPricesByCategory(string category)
+        private Dictionary<string, Price> GetPricesByCategory(string category)
         {
             IRestResponse response = Execute("get", new Dictionary<string, string> {
-                            {"league", LoginHelper.LoggedContext.League},
+                            {"league", loginHelper.LoggedContext.League},
                             { "category",category}
                         });
 

@@ -9,9 +9,18 @@ using System.Threading.Tasks;
 
 namespace PoEAnalyzer.Web.Services
 {
-    public static class StashService
+    public class StashService
     {
-        public static Stash GetStashItems()
+        private readonly LoginService loginHelper;
+        private readonly PriceService priceService;
+
+        public StashService(LoginService loginHelper, PriceService priceService)
+        {
+            this.loginHelper = loginHelper;
+            this.priceService = priceService;
+        }
+
+        public Stash GetStashItems()
         {
             Stash ret = new Stash();
 
@@ -28,7 +37,7 @@ namespace PoEAnalyzer.Web.Services
         }
 
 
-        private static List<Tab> GetTabs()
+        private List<Tab> GetTabs()
         {
             //https://www.pathofexile.com/character-window/get-stash-items?league={league}&tabs=1&accountName={account}
             IRestResponse response = Execute("get-stash-items", new Dictionary<string, string> { { "tabs", "1" } });
@@ -49,7 +58,7 @@ namespace PoEAnalyzer.Web.Services
 
         }
 
-        private static List<StashItem> GetItems(int tab)
+        private List<StashItem> GetItems(int tab)
         {
             //to get a list of all the leagues:
             //https://www.pathofexile.com/character-window/get-characters?accountName=diego_garber
@@ -79,14 +88,14 @@ namespace PoEAnalyzer.Web.Services
                     {
                         Quantity = x.stackSize ?? 1,
                         Item = item,
-                        Price = PriceService.GetPrice(item)
+                        Price = priceService.GetPrice(item)
                     });
             }
 
             return items;
         }
 
-        private static string GetType(dynamic x)
+        private string GetType(dynamic x)
         {
             string icon = x.icon;
 
@@ -95,7 +104,7 @@ namespace PoEAnalyzer.Web.Services
             return "";
         }
 
-        private static IRestResponse Execute(string resource, Dictionary<string, string> extraParams = null)
+        private IRestResponse Execute(string resource, Dictionary<string, string> extraParams = null)
         {
             RestClient client = new RestClient();
             client.BaseUrl = new Uri("https://www.pathofexile.com/character-window");
@@ -103,8 +112,8 @@ namespace PoEAnalyzer.Web.Services
             request.Resource = resource;
 
             //add querystring parameters
-            request.AddQueryParameter("league", LoginHelper.LoggedContext.League);
-            request.AddQueryParameter("accountName", LoginHelper.LoggedContext.Account);
+            request.AddQueryParameter("league", loginHelper.LoggedContext.League);
+            request.AddQueryParameter("accountName", loginHelper.LoggedContext.Account);
 
             if (extraParams != null)
             {
@@ -115,7 +124,7 @@ namespace PoEAnalyzer.Web.Services
             }
 
             //add cookie
-            request.AddCookie("POESESSID", LoginHelper.LoggedContext.POESessid);
+            request.AddCookie("POESESSID", loginHelper.LoggedContext.POESessid);
 
             //execute request
             IRestResponse response = client.Execute(request);
